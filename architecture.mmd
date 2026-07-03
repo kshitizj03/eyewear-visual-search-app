@@ -1,0 +1,43 @@
+%% Eyewear Visual Search - end-to-end flow (render at https://mermaid.live -> export PNG)
+flowchart TD
+    subgraph Client
+        U["User uploads image<br/>(+ optional text modifier)"]
+    end
+
+    subgraph AI["AI Inference Layer"]
+        SC["Smart Crop<br/>(OpenCV face -> eye region)"]
+        CE["CLIP ViT-B/32<br/>encode_image"]
+        TE["CLIP ViT-B/32<br/>encode_text"]
+        CH["Colour histogram<br/>(HSV)"]
+        TAG["Zero-shot tagger<br/>(style / rim / material)"]
+        FUSE["Query vector<br/>(image ⊕ text blend)"]
+    end
+
+    subgraph Data["Data Storage Layer"]
+        FAISS[("FAISS IndexFlatIP<br/>cosine ANN")]
+        SQL[("SQLite<br/>metadata · colour · tags · feedback")]
+    end
+
+    subgraph Rank["Ranking"]
+        FILT["Structured filters<br/>price · brand · material"]
+        FR["Fusion re-rank<br/>0.70·clip + 0.18·colour<br/>+ 0.12·attr + feedback boost"]
+    end
+
+    subgraph Serve
+        API["FastAPI /search /feedback"]
+        UI["Streamlit UI"]
+    end
+
+    U --> SC --> CE --> FUSE
+    U -. text .-> TE --> FUSE
+    SC --> CH
+    CE --> TAG
+    FUSE -->|top-K×N ANN| FAISS
+    FAISS --> FILT
+    SQL --> FILT
+    FILT --> FR
+    CH --> FR
+    TAG --> FR
+    SQL -->|per-style boosts| FR
+    FR --> API --> UI
+    UI -->|👍/👎 clicks| SQL

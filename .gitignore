@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Generated at runtime (rebuild with scripts/build_index.py)
+artifacts/
+logs/
+*.log
+
+# Redundant format backup created by scripts/convert_images.py
+data/images_original/
+
+# Secrets / local config
+.env
+*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
