@@ -172,7 +172,7 @@ Use Python 3.11 or 3.12. Python 3.13 and 3.14 do not yet have stable wheels for 
 dependencies.
 
 ```powershell
-cd eyewear-visual-search
+cd eyewear-visual-search-app
 py -3.11 -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt
