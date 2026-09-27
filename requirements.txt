@@ -1,0 +1,26 @@
+# --- Core deep learning ---
+torch>=2.1.0
+torchvision>=0.16.0
+open-clip-torch>=2.24.0        # CLIP backbone (ViT-B/32) - image + text encoders
+
+# --- Vector search + data ---
+faiss-cpu>=1.7.4              # swap for faiss-gpu if you have CUDA + conda
+numpy>=1.24.0
+pandas>=2.0.0
+
+# --- Image processing ---
+pillow>=10.0.0
+opencv-python>=4.8.0,<5         # also powers smart-crop face detection (Haar cascade).
+                                # Pinned <5: OpenCV 5.x dropped bundled Haar cascades.
+
+# --- API + UI ---
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9     # multipart image uploads for FastAPI
+streamlit>=1.31.0
+requests>=2.31.0
+
+# --- Observability + tooling ---
+loguru>=0.7.2
+pydantic>=2.6.0
+pytest>=8.0.0
